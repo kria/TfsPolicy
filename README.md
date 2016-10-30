@@ -1,6 +1,6 @@
 # TfsPolicy
 
-TfsPolicy is a plugin for Team Foundation Server that can deny TFS events based policies.
+TfsPolicy is a plugin for Team Foundation Server that can deny TFS events based on policies.
 
 This isn't a polished product by any means, more of an example of how these things can be accomplished. 
 
