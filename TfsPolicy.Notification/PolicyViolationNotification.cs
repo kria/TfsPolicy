@@ -22,6 +22,7 @@ namespace DevCore.TfsPolicy.Notification
 {
     public class PolicyViolationNotification : BaseNotification
     {
+        public string ProjectName { get; set; }
         public string UniqueName { get; set; }
         public string DisplayName { get; set; }
         public Type PolicyType { get; set; }
@@ -30,7 +31,8 @@ namespace DevCore.TfsPolicy.Notification
         public override EventRuleElement GetRuleMatch(string collection, IEnumerable<EventRuleElement> eventRules)
         {
             var rule = eventRules.FirstOrDefault(r => r.Events.HasFlag(TfsEvents.PolicyViolation)
-                && collection.IsMatchOrNoPattern(r.TeamProjectCollection));
+                && collection.IsMatchOrNoPattern(r.TeamProjectCollection)
+                && ProjectName.IsMatchOrNoPattern(r.TeamProject));
 
             return rule;
         }

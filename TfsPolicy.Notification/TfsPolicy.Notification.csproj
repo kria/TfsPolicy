@@ -44,6 +44,9 @@
       <HintPath>..\lib\Microsoft.TeamFoundation.Framework.Server.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Microsoft.TeamFoundation.Git.Server">
+      <HintPath>..\lib\Microsoft.TeamFoundation.Git.Server.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.TeamFoundation.Server.Core">
       <HintPath>..\lib\Microsoft.TeamFoundation.Server.Core.dll</HintPath>
       <Private>False</Private>

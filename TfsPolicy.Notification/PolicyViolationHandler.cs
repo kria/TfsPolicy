@@ -15,6 +15,8 @@ using DevCore.TfsNotificationRelay.EventHandlers;
 using DevCore.TfsNotificationRelay.Notifications;
 using Microsoft.TeamFoundation.Framework.Common;
 using Microsoft.TeamFoundation.Framework.Server;
+using Microsoft.TeamFoundation.Git.Server;
+using Microsoft.TeamFoundation.Integration.Server;
 using Microsoft.TeamFoundation.Server.Core;
 using System.Collections.Generic;
 
@@ -22,19 +24,26 @@ namespace DevCore.TfsPolicy.Notification
 {
     public class PolicyViolationHandler : BaseHandler<PolicyViolationEvent>
     {
-        protected override IEnumerable<INotification> CreateNotifications(IVssRequestContext requestContext, PolicyViolationEvent notificationEventArgs, int maxLines)
+        protected override IEnumerable<INotification> CreateNotifications(IVssRequestContext requestContext, PolicyViolationEvent policyViolation, int maxLines)
         {
+            var commonService = requestContext.GetService<CommonStructureService>();
             var identityService = requestContext.GetService<ITeamFoundationIdentityService>();
-            var identity = identityService.ReadIdentity(requestContext, IdentitySearchFactor.Identifier, notificationEventArgs.Identity.Identifier);
+            var identity = identityService.ReadIdentity(requestContext, IdentitySearchFactor.Identifier, policyViolation.Identity.Identifier);
             
             var notification = new PolicyViolationNotification()
             {
                 TeamProjectCollection = requestContext.ServiceHost.Name,
-                PolicyType = notificationEventArgs.PolicyType,
-                Message = notificationEventArgs.Message,
+                ProjectName = string.Empty,
+                PolicyType = policyViolation.PolicyType,
+                Message = policyViolation.Message,
                 UniqueName = identity.UniqueName,
                 DisplayName = identity.DisplayName
             };
+
+            var push = policyViolation.OriginalEvent as PushNotification;
+            if (push != null)
+                notification.ProjectName = commonService.GetProject(requestContext, push.TeamProjectUri).Name;
+
 
             yield return notification;
         }
