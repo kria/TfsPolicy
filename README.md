@@ -40,5 +40,5 @@ TfsPolicy will publish a `DevCore.TfsPolicy.PolicyViolationEvent` when a policy 
 
 * Define your policies under `Policies/` by extending `PolicyBase`.
 * Compile.
-* Copy `DevCore.TfsPolicy.dll` to *C:\Program Files\Microsoft Team Foundation Server 14.0\Application Tier\Web Services\bin\Plugins*.
+* Copy `DevCore.TfsPolicy.dll` to *C:\Program Files\Microsoft Team Foundation Server 15.0\Application Tier\Web Services\bin\Plugins*.
 * If you want to integrate with TfsNotificationRelay, also copy `DevCore.TfsPolicy.Notification.dll`.

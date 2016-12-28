@@ -39,24 +39,25 @@ namespace DevCore.TfsPolicy.Policies
                     TfsGitCommit commit = (TfsGitCommit)repository.LookupObject(branch.NewObjectId);
                     if (commit != null)
                     {
-                        var tree = commit.GetTree(requestContext);
-                        var treeEntries = tree.GetTreeEntries(requestContext);
+                        var tree = commit.GetTree();
+                        var treeEntries = tree.GetTreeEntries();
                         if (treeEntries.Any())
                         {
                             bool includesGitignore = false;
                             bool includesGitattributes = false;
                             foreach (var entry in treeEntries)
                             {
-                                if (entry.ObjectType == GitObjectType.Blob && entry.RelativePath.Equals(".gitignore", StringComparison.OrdinalIgnoreCase))
+                                if (entry.ObjectType == GitObjectType.Blob && entry.Name.Equals(".gitignore", StringComparison.OrdinalIgnoreCase))
                                     includesGitignore = true;
 
-                                if (entry.ObjectType == GitObjectType.Blob && entry.RelativePath.Equals(".gitattributes", StringComparison.OrdinalIgnoreCase))
+                                if (entry.ObjectType == GitObjectType.Blob && entry.Name.Equals(".gitattributes", StringComparison.OrdinalIgnoreCase))
                                 {
-                                    using (var reader = new StreamReader(entry.Object.GetContent(requestContext)))
+                                    using (var reader = new StreamReader(entry.Object.GetContent()))
                                     {
                                         var gitattributesContents = reader.ReadToEnd();
                                         // Make sure .gitattributes file has a '* text=auto' line for eol normalization
-                                        if (!Regex.IsMatch(gitattributesContents, @"^\*\s+text=auto\s*$", RegexOptions.Multiline)) {
+                                        if (!Regex.IsMatch(gitattributesContents, @"^\*\s+text=auto\s*$", RegexOptions.Multiline))
+                                        {
                                             Logger.Log("pushNotification:", push);
                                             var statusMessage = $".gitattributes is missing '* text=auto'. See {Settings.DocsBaseUrl}/guidelines/scm/git-conventions/#mandatory-files.";
                                             Logger.Log(statusMessage);

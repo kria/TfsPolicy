@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DevCore.TfsPolicy.Notification</RootNamespace>
     <AssemblyName>DevCore.TfsPolicy.Notification</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -46,6 +46,7 @@
     </Reference>
     <Reference Include="Microsoft.TeamFoundation.Git.Server">
       <HintPath>..\lib\Microsoft.TeamFoundation.Git.Server.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.TeamFoundation.Server.Core">
       <HintPath>..\lib\Microsoft.TeamFoundation.Server.Core.dll</HintPath>
