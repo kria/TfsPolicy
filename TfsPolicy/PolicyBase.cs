@@ -24,12 +24,12 @@ namespace DevCore.TfsPolicy
             return new[] { typeof(T) };
         }
 
-        protected override PolicyEvaluationResult Evalute(IVssRequestContext requestContext, object notificationEventArgs)
+        protected override PolicyEvaluationResult Evaluate(IVssRequestContext requestContext, object notificationEventArgs)
         {
-            return Evalute(requestContext, (T)notificationEventArgs);
+            return Evaluate(requestContext, (T)notificationEventArgs);
         }
 
-        protected abstract PolicyEvaluationResult Evalute(IVssRequestContext requestContext, T notificationEventArgs);
+        protected abstract PolicyEvaluationResult Evaluate(IVssRequestContext requestContext, T notificationEventArgs);
     }
 
     public abstract class PolicyBase : ISubscriber
@@ -40,7 +40,7 @@ namespace DevCore.TfsPolicy
 
         public abstract Type[] SubscribedTypes();
 
-        protected abstract PolicyEvaluationResult Evalute(IVssRequestContext requestContext, object notificationEventArgs);
+        protected abstract PolicyEvaluationResult Evaluate(IVssRequestContext requestContext, object notificationEventArgs);
 
         public EventNotificationStatus ProcessEvent(IVssRequestContext requestContext, NotificationType notificationType, object notificationEventArgs,
             out int statusCode, out string statusMessage, out ExceptionPropertyCollection properties)
@@ -51,7 +51,7 @@ namespace DevCore.TfsPolicy
 
             if (notificationType == NotificationType.DecisionPoint)
             {
-                var result = Evalute(requestContext, notificationEventArgs);
+                var result = Evaluate(requestContext, notificationEventArgs);
                 if (!result.IsValid)
                 {
                     statusMessage = result.Message;

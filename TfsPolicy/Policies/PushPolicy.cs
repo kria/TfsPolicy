@@ -19,7 +19,7 @@ namespace DevCore.TfsPolicy.Policies
 {
     public abstract class PushPolicy : PolicyBase<PushNotification>
     {
-        protected override PolicyEvaluationResult Evalute(IVssRequestContext requestContext, PushNotification notificationEventArgs)
+        protected override PolicyEvaluationResult Evaluate(IVssRequestContext requestContext, PushNotification notificationEventArgs)
         {
             var commonService = requestContext.GetService<ICommonStructureService>();
             var push = (PushNotification)notificationEventArgs;
@@ -27,11 +27,11 @@ namespace DevCore.TfsPolicy.Policies
             if (projectName == "TestCompany")
                 return new PolicyEvaluationResult(true);
 
-            return EvaluteInternal(requestContext, notificationEventArgs);
+            return EvaluateInternal(requestContext, notificationEventArgs);
         }
 
         
-        protected abstract PolicyEvaluationResult EvaluteInternal(IVssRequestContext requestContext, PushNotification notificationEventArgs);
+        protected abstract PolicyEvaluationResult EvaluateInternal(IVssRequestContext requestContext, PushNotification notificationEventArgs);
 
     }
 }

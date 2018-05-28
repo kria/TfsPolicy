@@ -25,7 +25,7 @@ namespace DevCore.TfsPolicy.Policies
     {
         private const string BranchPattern = @"^[a-z0-9_./-]+$";
 
-        protected override PolicyEvaluationResult EvaluteInternal(IVssRequestContext requestContext, PushNotification push)
+        protected override PolicyEvaluationResult EvaluateInternal(IVssRequestContext requestContext, PushNotification push)
         {
             var newBranches = push.RefUpdateResults.Where(r => r.OldObjectId == Sha1Id.Empty && r.Name.StartsWith(Constants.BranchPrefix));
             var newBranchNames = newBranches.Select(r => r.Name.Substring(Constants.BranchPrefix.Length));

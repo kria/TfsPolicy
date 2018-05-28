@@ -26,7 +26,7 @@ namespace DevCore.TfsPolicy.Policies
     /// </summary>
     public class MandatoryFilesPolicy : PushPolicy
     {
-        protected override PolicyEvaluationResult EvaluteInternal(IVssRequestContext requestContext, PushNotification push)
+        protected override PolicyEvaluationResult EvaluateInternal(IVssRequestContext requestContext, PushNotification push)
         {
             var repositoryService = requestContext.GetService<ITeamFoundationGitRepositoryService>();
 
