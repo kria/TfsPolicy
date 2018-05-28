@@ -24,19 +24,23 @@ namespace DevCore.TfsPolicy.Policies
     public class BranchNamingPolicy : PushPolicy
     {
         private const string BranchPattern = @"^[a-z0-9_./-]+$";
+        private static readonly string[] WhiteListedBranchNames = { "wikiMaster" };
 
         protected override PolicyEvaluationResult EvaluateInternal(IVssRequestContext requestContext, PushNotification push)
         {
             var newBranches = push.RefUpdateResults.Where(r => r.OldObjectId == Sha1Id.Empty && r.Name.StartsWith(Constants.BranchPrefix));
             var newBranchNames = newBranches.Select(r => r.Name.Substring(Constants.BranchPrefix.Length));
 
-            var badBranchNames = newBranchNames.Where(name => !Regex.IsMatch(name, BranchPattern)
-                || Regex.IsMatch(name, "^feat[/-]")
-                || Regex.IsMatch(name, "^feature[^/]")
-                || name == "dev"
-                || name == "development"
-                || name == "feature"
-                );
+            var badBranchNames = newBranchNames
+                .Where(name => !WhiteListedBranchNames.Contains(name))
+                .Where(name => !Regex.IsMatch(name, BranchPattern)
+                    || Regex.IsMatch(name, "^feat[/-]")
+                    || Regex.IsMatch(name, "^feature[^/]")
+                    || Regex.IsMatch(name, "^bug[/-]")
+                    || name == "dev"
+                    || name == "development"
+                    || name == "feature"
+                    );
 
             if (badBranchNames.Any())
             {
